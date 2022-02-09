@@ -1,14 +1,12 @@
 import axios from "axios";
 import { connectStorageEmulator } from "firebase/storage";
-
-const KEY = '9e5737acb5384b01a487f3edd08c390f';
-const ENDPOINT = 'https://azure-cognitive-vision.cognitiveservices.azure.com';
+import { AZURE_KEY, AZURE_ENDPOINT } from "../config";
 
 export const AzureOCRService = async (baseImageUrl) => {
     const config = {
         headers: {
             "Content-Type": "application/json",
-            "Ocp-Apim-Subscription-Key": KEY,
+            "Ocp-Apim-Subscription-Key": AZURE_KEY,
         },
     };
     const ImageToCovertObject = {
@@ -16,7 +14,7 @@ export const AzureOCRService = async (baseImageUrl) => {
     };
     try {
         const response = await axios.post(
-            `${ENDPOINT}/vision/v3.0/ocr?language=unk&detectOrientation=true`,
+            `${AZURE_ENDPOINT}/vision/v3.0/ocr?language=unk&detectOrientation=true`,
             ImageToCovertObject,
             config
         )

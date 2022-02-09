@@ -1,18 +1,14 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
 
 import * as ImagePicker from 'react-native-image-picker';
 import { ImagePickerModal } from './src/components/ImagePickerModal';
 import { ImagePickerAvatar } from './src/components/ImagePickerAvatar';
-import { AzureOCRService } from './src/OCR';
+import { AzureOCRService } from './src/services';
 
 import { initializeApp } from 'firebase/app';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';

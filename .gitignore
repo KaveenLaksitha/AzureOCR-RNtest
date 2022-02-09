@@ -60,4 +60,4 @@ buck-out/
 /ios/Pods/
 
 src/config.js
-src/firebase/
+src/firebase/firebaseConfig.js

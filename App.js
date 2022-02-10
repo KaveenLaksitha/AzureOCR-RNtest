@@ -22,6 +22,7 @@ const App = () => {
   const [pickerResponse, setPickerResponse] = useState(null)
   const [visible, setVisible] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [message, setMessage] = useState('The result will display here...')
 
   const [ocrData, setOcrData] = useState([]);
 
@@ -89,6 +90,7 @@ const App = () => {
           } else {
             setIsLoading(false)
             setOcrData([])
+            setMessage('unsupported image, please try again with another image...')
           }
         });
 
@@ -119,7 +121,7 @@ const App = () => {
               })}
             </Text>
           );
-        }) : 'result will show here...'}
+        }) : message}
         </Text>
       </View>
     </View >
@@ -132,7 +134,7 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: 'center',
     justifyContent: 'space-around',
-    backgroundColor: 'white'
+    backgroundColor: '#e7e7e7'
   },
   resultsContainer: {
     width: 350,
@@ -140,10 +142,16 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 1,
     borderColor: '#213B71',
     borderRadius: 10,
-    elevation: 7
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+    elevation: 8,
   }
 });
 

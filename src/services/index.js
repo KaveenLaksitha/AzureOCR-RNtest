@@ -14,7 +14,6 @@ export const AzureOCRService = async (baseImageUrl) => {
     };
     try {
         const response = await axios.post(
-            // `${AZURE_ENDPOINT}/vision/v3.0/ocr?language=unk&detectOrientation=true`,
             `${AZURE_ENDPOINT}`,
             ImageToCovertObject,
             config

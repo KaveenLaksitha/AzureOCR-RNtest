@@ -6,10 +6,11 @@ import {
   Image,
   View,
   ImageBackground,
+  ActivityIndicator,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-export function ImagePickerAvatar({ uri, onPress }) {
+export function ImagePickerAvatar({ uri, onPress, isLoading, isDisabled }) {
   return (
     <View style={styles.avatar}>
       <Image
@@ -17,8 +18,9 @@ export function ImagePickerAvatar({ uri, onPress }) {
         // source={uri ? { uri } : require('../assets/avatar.png')}
         source={uri ? { uri } : require('../assets/bg.jpg')}
       />
-      <TouchableOpacity style={styles.btn} onPress={onPress} >
-        <Text style={{ color: 'white', fontWeight: '600', fontSize: 18 }}>Pick a image</Text>
+      <TouchableOpacity style={[styles.btn, { opacity: isDisabled ? 0.7 : 1 }]} onPress={onPress} disabled={isDisabled}>
+        <ActivityIndicator size={30} color="#FFF" animating={isLoading} />
+        <Text style={{ color: 'white', fontWeight: '600', fontSize: 18, marginLeft: 10 }}>{isDisabled ? 'Processing..' : 'Pick an Image'}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -46,5 +48,6 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
+    flexDirection: 'row'
   },
 });

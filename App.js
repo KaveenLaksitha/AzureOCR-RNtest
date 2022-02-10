@@ -3,8 +3,8 @@ import {
   StyleSheet,
   Text,
   View,
+  ActivityIndicator
 } from 'react-native';
-
 import * as ImagePicker from 'react-native-image-picker';
 import { ImagePickerModal } from './src/components/ImagePickerModal';
 import { ImagePickerAvatar } from './src/components/ImagePickerAvatar';
@@ -21,6 +21,7 @@ const App = () => {
 
   const [pickerResponse, setPickerResponse] = useState(null)
   const [visible, setVisible] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   const [ocrData, setOcrData] = useState([]);
 
@@ -57,6 +58,8 @@ const App = () => {
   }, []);
 
   const uploadToFirebase = async (file) => {
+    setIsLoading(true);
+    setOcrData([])
     const storage = getStorage(); //the storage itself
     const _ref = ref(storage, 'images/image.jpg'); //how the image will be addressed inside the storage
 
@@ -68,6 +71,7 @@ const App = () => {
       await uploadBytes(_ref, bytes); //upload images
       getURLandProcess();
     } catch (error) {
+      setIsLoading(false);
       console.log('error while upload')
     }
   }
@@ -79,7 +83,13 @@ const App = () => {
         // `url` is the download URL for 'images/image.jpg
         console.log("url of image>>>", url)
         AzureOCRService(url).then((res) => {
-          res.ok ? setOcrData(res.data) : setOcrData([]);
+          if (res.ok) {
+            setIsLoading(false)
+            setOcrData(res.data)
+          } else {
+            setIsLoading(false)
+            setOcrData([])
+          }
         });
 
       })
@@ -93,7 +103,7 @@ const App = () => {
 
   return (
     <View style={styles.container}>
-      <ImagePickerAvatar uri={uri} onPress={() => setVisible(true)} />
+      <ImagePickerAvatar uri={uri} onPress={() => setVisible(true)} isLoading={isLoading} isDisabled={isLoading} />
       <ImagePickerModal
         isVisible={visible}
         onClose={() => setVisible(false)}

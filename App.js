@@ -2,8 +2,7 @@ import React, { useCallback, useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
-  View,
-  ActivityIndicator
+  View
 } from 'react-native';
 import * as ImagePicker from 'react-native-image-picker';
 import { ImagePickerModal } from './src/components/ImagePickerModal';
@@ -39,7 +38,6 @@ const App = () => {
       includeBase64: false
     }
     const result = await ImagePicker.launchImageLibrary(options, setPickerResponse);
-    console.log("ressssssssssssss", result.assets[0].uri)
     setVisible(false)
     if (!result.didCancel) {
       uploadToFirebase(result);
@@ -58,6 +56,7 @@ const App = () => {
     }
   }, []);
 
+  //function related to upleade image to firebase storage
   const uploadToFirebase = async (file) => {
     setIsLoading(true);
     setOcrData([])
@@ -73,10 +72,11 @@ const App = () => {
       getURLandProcess();
     } catch (error) {
       setIsLoading(false);
-      console.log('error while upload')
+      console.error('error while upload', error)
     }
   }
 
+  //function related to get url from firebase storage and process using azure API
   const getURLandProcess = async () => {
     const storage = getStorage();
     await getDownloadURL(ref(storage, 'images/image.jpg'))
@@ -97,10 +97,11 @@ const App = () => {
       })
       .catch((error) => {
         // Handle any errors
-        console.log("error while getting url")
+        console.error("error while getting url", error)
       });
   }
 
+  //to store uri of selecting image
   const uri = pickerResponse?.assets && pickerResponse.assets[0].uri;
 
   return (
@@ -117,7 +118,7 @@ const App = () => {
           return (
             <Text key={line.words.text}>
               {line.words.map((words) => {
-                return " " + words.text;
+                return " " + words.text.toLowerCase();
               })}
             </Text>
           );

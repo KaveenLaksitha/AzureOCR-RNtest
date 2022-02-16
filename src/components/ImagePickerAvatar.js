@@ -15,7 +15,6 @@ export function ImagePickerAvatar({ uri, onPress, isLoading, isDisabled }) {
     <View style={styles.avatar}>
       <Image
         style={styles.avatarImage}
-        // source={uri ? { uri } : require('../assets/avatar.png')}
         source={uri ? { uri } : require('../assets/bg.jpg')}
       />
       <TouchableOpacity style={[styles.btn, { opacity: isDisabled ? 0.7 : 1 }]} onPress={onPress} disabled={isDisabled}>
